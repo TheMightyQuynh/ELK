@@ -1,18 +1,19 @@
 # Setting up Elasticsearch 6.8.23 on AWS
 
-This example is based off A Cloud Guru's <a href="https://learn.acloud.guru/course/1e3ff00e-95bf-451b-be04-44d4bce6bfba/dashboard">Elastic Search Deep Dive</a> course. In the course he is using CentOS 7 servers on the learning platform's Cloud Playground, here I am using Ubuntu 22.04 on AWS which has a few key differences.
-
 ## Prerequisites
 1. 3 EC2 instances
    - Application and OS Images: Ubuntu Server 22.04 LTS (HVM), SSD Volume Type (Free tier eligible)
-   - Instance type: t2.micro (Free tier eligible - 1vCPU, 1GiB memory) for master-1 node, at least t2.small (1vCPU, 2GiB memory) for data-1 and data-2 nodes
+   - Instance type: At least t2.small (1vCPU, 2GiB memory)
    - Key pair (login) - only needs to be done once, not for each instance:
      - Key pair type: RSA
      - Private key file format: .ppk (for use with PuTTy)
    - Network settings:
       - Auto-assign public IP: Enable
       - Security Group:
-         - Inbound rules: Custom TCP - Port 9300 with the same Security Group as Source; SSH - Port 22
+         - Inbound rules:
+            - Custom TCP - Port 9300 with the same Security Group as Source
+            - Custom TCP - Port 8080, Source 0.0.0.0/0
+            - SSH - Port 22, Source 0.0.0.0/0
          - Outbound rules: All traffic
 2. Connect to each instance using an SSH client, e.g. PuTTy for this example
    - Open PuTTy and enter the public IPv4 address of the EC2 instance in Host Name
@@ -117,10 +118,10 @@ node.ml: false
 ```
 sudo nano /etc/elasticsearch/jvm.options
 ```
-8. Update the heap min and max size to 256m (default is 1GiB, e.g. `-Xms1g` `-Xmx1g`) if you chose instance type t2.micro (1GiB memory) for master-1, else see the section on RAM in the first answer of <a href="https://stackoverflow.com/a/58656748">this Stackoverflow thread</a>
+8. Update the initial and max heap size to 768m (default is 1GiB, e.g. `-Xms1g` `-Xmx1g`) if you chose instance type t2.small (2GiB memory) for master-1, else see the section on RAM in the first answer of <a href="https://stackoverflow.com/a/58656748">this Stackoverflow thread</a>
 ```
--Xms256m
--Xmx256m
+-Xms768m
+-Xmx768m
 ```
 9. Start Elasticsearch on all three instances (you may need to run the command as sudo)
 ```
