@@ -1,4 +1,5 @@
 # Setting up Elasticsearch 6.8.23 on AWS
+This example is based off A Cloud Guru's <a href="https://learn.acloud.guru/course/1e3ff00e-95bf-451b-be04-44d4bce6bfba/dashboard">Elastic Search Deep Dive</a> course. In the course he is using CentOS 7 servers on the learning platform's Cloud Playground, here I am using Ubuntu 22.04 on AWS.
 
 ## Prerequisites
 1. 3 EC2 instances
@@ -60,7 +61,7 @@ Note: Some of the configuration settings are different from those shown in the c
 ```
 sudo nano /etc/elasticsearch/elasticsearch.yml 
 ```
-2. For the master-1 node, uncomment and update following configurations:
+2. For the master-1 node, uncomment and update the following configurations:
 ```
 cluster.name: playground
 node.name: master-1
@@ -70,14 +71,14 @@ discovery.zen.minimum_master_nodes: 1
 ```
 Note that in place of `discovery.seed_hosts` and `cluster.initial_master_nodes` as mentioned in the course (Elasticsearch 7.x and above), the configuration for Elasticsearch 6.x uses `discovery.zen.ping.unicast.hosts` and `discovery.zen.minimum_master_nodes`, respectively.
 
-   - Add the following configurations at the bottom:
+   - Add the following configurations:
 ```
 node.master: true
 node.data: false
 node.ingest: true
 node.ml: false
 ```
-   - Save and exit.
+   - Save and exit the editor.
 
 3. For the data-1 node, uncomment and update the following configurations:
 ```
@@ -88,14 +89,14 @@ network.host: [_local_, _site_]
 discovery.zen.ping.unicast.hosts: ["`private IP master-1`"]
 discovery.zen.minimum_master_nodes: 1
 ```
-   - Add the following configurations at the bottom:
+   - Add the following configurations:
 ```
 node.master: false
 node.data: true
 node.ingest: false
 node.ml: false
 ```
-   - Save and exit.
+   - Save and exit the editor.
 
 4. For the data-2 node, uncomment and update the following configurations:
 ```
@@ -105,14 +106,14 @@ network.host: [_local_, _site_]
 discovery.zen.ping.unicast.hosts: ["`private IP master-1`"]
 discovery.zen.minimum_master_nodes: 1
 ```
-   - Add the following configurations at the bottom
+   - Add the following configurations:
 ```
 node.master: false
 node.data: true
 node.ingest: false
 node.ml: false
 ```
-   - Save and exit.
+   - Save and exit the editor.
 
 7. Configure the JVM heap on the master-1 node to free up more system memory for Kibana
 ```
@@ -123,7 +124,9 @@ sudo nano /etc/elasticsearch/jvm.options
 -Xms768m
 -Xmx768m
 ```
-9. Start Elasticsearch on all three instances (you may need to run the command as sudo)
+   - Save and exit the editor.
+
+9. Start Elasticsearch on all three instances (you may need to run the command as root)
 ```
 systemctl start elasticsearch
 ```
