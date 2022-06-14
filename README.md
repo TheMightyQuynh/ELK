@@ -63,7 +63,7 @@ sudo nano /etc/elasticsearch/elasticsearch.yml
 ```
 cluster.name: playground
 node.name: master-1
-network.host: [\_local\_, \_site\_]
+network.host: [_local_, _site_]
 discovery.zen.ping.unicast.hosts: ["`private IP master-1`"]
 discovery.zen.minimum_master_nodes: 1
 ```
@@ -83,7 +83,7 @@ node.ml: false
 cluster.name: playground
 node.name: data-1
 node.attr.temp: hot
-network.host: [\_local\_, \_site\_]
+network.host: [_local_, _site_]
 discovery.zen.ping.unicast.hosts: ["`private IP master-1`"]
 discovery.zen.minimum_master_nodes: 1
 ```
@@ -100,7 +100,7 @@ node.ml: false
 ```
 cluster.name: playground
 node.name: data-2
-network.host: [\_local\_, \_site\_]
+network.host: [_local_, _site_]
 discovery.zen.ping.unicast.hosts: ["`private IP master-1`"]
 discovery.zen.minimum_master_nodes: 1
 ```
