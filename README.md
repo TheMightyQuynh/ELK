@@ -4,3 +4,4 @@ This guided example is based off A Cloud Guru's <a href="https://learn.acloud.gu
 Go through the guide in this order:
 1. <a href="https://github.com/TheMightyQuynh/ELK/blob/main/INSTALL_Elasticsearch_6.8.23.md">Setting up Elasticsearch 6.8.23 on AWS</a>
 2. <a href="https://github.com/TheMightyQuynh/ELK/blob/main/INSTALL_Kibana_6.8.23.md">Setting up Kibana 6.8.23 on AWS</a>
+3. <a href="https://github.com/TheMightyQuynh/ELK/blob/main/Secure_the_Cluster.md">Secure the Cluster</a>
