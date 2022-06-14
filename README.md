@@ -117,7 +117,7 @@ node.ml: false
 ```
 sudo nano /etc/elasticsearch/jvm.options
 ```
-8. Update the heap min and max size to 256m (default is 1GiB, e.g. `-Xms1g` `-Xmx1g`) if you chose instance type t2.micro (1GiB memory) for master-1, or 768m if you chose t2.small (2GiB memory) for master-1
+8. Update the heap min and max size to 256m (default is 1GiB, e.g. `-Xms1g` `-Xmx1g`) if you chose instance type t2.micro (1GiB memory) for master-1, else see the section on RAM in the first answer of <a href="https://stackoverflow.com/a/58656748">this Stackoverflow thread</a>
 ```
 -Xms256m
 -Xmx256m
