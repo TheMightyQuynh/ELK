@@ -1,4 +1,4 @@
-# Secure the Cluster (WIP)
+# Secure the Cluster
 The Kibana instance we have created is open to anyone and running over an unencrypted HTTP connection. To secure the connection, certificates must be created and signed using the built-in security utilities in Elasticsearch.
 
 ## Create the Public Key Infrastructure
