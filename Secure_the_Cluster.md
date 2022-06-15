@@ -113,7 +113,7 @@ chmod 640 master-1
 ```
    - Enter a value for the password when prompted (value should be the same as for the keystore password, as it uses the same certificate; `elastic_master_1` for this example)
 
-4. Open `/etc/elasticsearch/elasticsearch.yml` in the editor of your choice and add the below security configurations (optionally create a Security section to put these under):
+4. Open `/etc/elasticsearch/elasticsearch.yml` in an editor and add the below security configurations (optionally create a Security section to put these under):
 ```
 xpack.security.enabled: true
 xpack.security.transport.ssl.enabled: true
@@ -141,7 +141,7 @@ chmod 640 data-1
 ```
    - Enter a value for the password when prompted (`elastic_data_1`)
 
-8. Open `/etc/elasticsearch/elasticsearch.yml` in the editor of your choice and add the below security configurations (optionally create a Security section to put these under):
+8. Open `/etc/elasticsearch/elasticsearch.yml` in an editor and add the below security configurations (optionally create a Security section to put these under):
 ```
 xpack.security.enabled: true
 xpack.security.transport.ssl.enabled: true
@@ -212,3 +212,85 @@ http://12.34.56.78:8080
 
 6. Under Dev Tools, confirm you can interact with the cluster
 <img src="https://user-images.githubusercontent.com/104564793/173766338-2ff0719b-9a74-4812-a278-dcb1e7a89e46.png" width=800>
+
+## Encrypt the Client Network
+In a production environment, you would use a globally trusted certificate for the client network. For this example we are using the same self-signed certificate that was used for the transport network just to demonstrate the procedure for encrypting client traffic.
+
+1. On the **master-1** node, open `/etc/elasticsearch/elasticsearch.yml` in an editor and add the below security configurations:
+```
+xpack.security.http.ssl.enabled: true
+xpack.security.http.ssl.keystore.path: master-1
+xpack.security.http.ssl.truststore.path: master-1
+```
+
+2. Open `/etc/kibana/kibana.yml` in an aditor and update the below configurations:
+```
+elasticsearch.hosts: ["https://localhost:9200"]
+elasticsearch.ssl.verificationMode: none
+```
+   - Note the http**s** in `elasticsearch.hosts`
+   - SSL verification mode set to none only because we are using a self-signed cert in this example
+
+3. Use Elasticsearch's keystore utility to add a keystore password
+```
+/usr/share/elasticsearch/bin/elasticsearch-keystore add xpack.security.http.ssl.keystore.secure_password
+```
+   - Enter a value for the password when prompted (`elastic_master_1`)
+
+4. Use Elasticsearch's keystore utility to add a truststore password
+```
+/usr/share/elasticsearch/bin/elasticsearch-keystore add xpack.security.http.ssl.truststore.secure_password
+```
+   - Enter a value for the password when prompted (`elastic_master_1`)
+
+5. On the **data-1** node, open `/etc/elasticsearch/elasticsearch.yml` in an editor and add the below security configurations:
+```
+xpack.security.http.ssl.enabled: true
+xpack.security.http.ssl.keystore.path: data-1
+xpack.security.http.ssl.truststore.path: data-1
+```
+
+6. Use Elasticsearch's keystore utility to add a keystore password
+```
+/usr/share/elasticsearch/bin/elasticsearch-keystore add xpack.security.http.ssl.keystore.secure_password
+```
+   - Enter a value for the password when prompted (`elastic_data_1`)
+
+7. Use Elasticsearch's keystore utility to add a truststore password
+```
+/usr/share/elasticsearch/bin/elasticsearch-keystore add xpack.security.http.ssl.truststore.secure_password
+```
+   - Enter a value for the password when prompted (`elastic_data_1`)
+
+8. On the **data-2** node, open `/etc/elasticsearch/elasticsearch.yml` in an editor and add the below security configurations:
+```
+xpack.security.http.ssl.enabled: true
+xpack.security.http.ssl.keystore.path: data-2
+xpack.security.http.ssl.truststore.path: data-2
+```
+
+9. Use Elasticsearch's keystore utility to add a keystore password
+```
+/usr/share/elasticsearch/bin/elasticsearch-keystore add xpack.security.http.ssl.keystore.secure_password
+```
+   - Enter a value for the password when prompted (`elastic_data_2`)
+
+10. Use Elasticsearch's keystore utility to add a truststore password
+```
+/usr/share/elasticsearch/bin/elasticsearch-keystore add xpack.security.http.ssl.truststore.secure_password
+```
+   - Enter a value for the password when prompted (`elastic_data_2`)
+
+11. Restart Elasticsearch on all three nodes and restart Kibana on **master-1**
+```
+systemctl restart elasticsearch
+systemctl restart kibana
+```
+
+Note: Status check via curl now requires HTTPS and `--insecure` flag:
+```
+curl -u elastic:elastic_566 https://localhost:9200 --insecure
+```
+
+12. Login to Kibana on the browser and confirm you can still interact with the cluster using Dev Tools
+<img src="https://user-images.githubusercontent.com/104564793/173774004-89554632-7057-4a8e-ae36-3c2fba848c60.png" width=800>
