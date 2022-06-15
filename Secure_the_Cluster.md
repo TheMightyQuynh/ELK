@@ -4,7 +4,7 @@ The Kibana instance we have created is open to anyone and running over an unencr
 ## Create the Public Key Infrastructure
 Must be logged in as root to run the below commands.
 
-1. Create the certificate authority on the **master-1** node
+1. Create the certificate authority on the **master-1** node using Elasticsearch's certificate utility
 ```
 /usr/share/elasticsearch/bin/elasticsearch-certutil ca --out /etc/elasticsearch/ca --pass elastic_ca
 ```
@@ -167,7 +167,7 @@ chmod 640 data-2
 ```
    - Enter a value for the password when prompted (`elastic_data_2`)
 
-12. Open `/etc/elasticsearch/elasticsearch.yml` in the editor of your choice and add the below security configurations (optionally create a Security section to put these under):
+12. Open `/etc/elasticsearch/elasticsearch.yml` in an editor and add the below security configurations (optionally create a Security section to put these under):
 ```
 xpack.security.enabled: true
 xpack.security.transport.ssl.enabled: true
@@ -175,3 +175,40 @@ xpack.security.transport.ssl.verification_mode: full
 xpack.security.transport.ssl.keystore.path: data-2
 xpack.security.transport.ssl.truststore.path: data-2
 ```
+
+## Set Built-in User Passwords
+
+1. Use Elasticsearch's password setup utility to set the passwords for the built-in users
+```
+/usr/share/elasticsearch/bin/elasticsearch-setup-passwords interactive
+```
+   - elastic: elastic_566
+   - apm_system: apt_system_566
+   - kibana: kibana_566
+   - logstash_system: logstash_system_566
+   - beats_system: beats_system_566
+   - remote_monitoring_user: remote_monitoring_user_566
+
+2. Open `/etc/kibana/kibana.yml` in an editor and configure Kibana to use the Kibana username and password set above
+```
+elasticsearch.username: "kibana"
+elasticsearch.password: "kibana_566"
+```
+
+3. Start Kibana
+```
+systemctl start kibana
+```
+
+4. Enter the public IP of the master-1 node into a web browser using HTTP port 8080, example:
+```
+http://12.34.56.78:8080
+```
+   You should now see this screen:
+   
+   <img src="https://user-images.githubusercontent.com/104564793/173765667-9cd29c46-b353-4787-ad57-7b0a6d72a8a0.png" width=800>
+
+5. Login using username `kibana` and password `kibana_566`
+
+6. Under Dev Tools, confirm you can interact with the cluster
+<img src="https://user-images.githubusercontent.com/104564793/173766338-2ff0719b-9a74-4812-a278-dcb1e7a89e46.png" width=800>
