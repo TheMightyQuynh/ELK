@@ -65,3 +65,22 @@ PUT logs
 Note: `"type_name"` required for 6.x but is deprecated as of 7.x. Creating the indices for `shakespeare` and `logs` will display this warning in the console output:
 
 ![image](https://user-images.githubusercontent.com/104564793/174551170-4712ffdd-4396-47f2-a3d1-f4ef832cdec0.png)
+
+# Bulk Index Data
+SSH into the master-1 node and elevate to root user.
+
+*! Below sample data doesn't work with 6.x, need to find appropriate data. !*
+
+Run the following commands to download the sample data.
+```
+curl -O https://raw.githubusercontent.com/linuxacademy/content-elasticsearch-deep-dive/master/sample_data/accounts.json
+curl -O https://raw.githubusercontent.com/linuxacademy/content-elasticsearch-deep-dive/master/sample_data/shakespeare.json
+curl -O https://raw.githubusercontent.com/linuxacademy/content-elasticsearch-deep-dive/master/sample_data/logs.json
+```
+
+Bulk index the files into the appropriate indices.
+```
+curl -u elastic -k -H 'Content-type: application/x-ndjson' -X POST https://localhost:9200/bank/_bulk --data-binary @accounts.json
+curl -u elastic -k -H 'Content-type: application/x-ndjson' -X POST https://localhost:9200/bank/_bulk --data-binary @shakespeare.json
+curl -u elastic -k -H 'Content-type: application/x-ndjson' -X POST https://localhost:9200/bank/_bulk --data-binary @logs.json
+```
