@@ -183,7 +183,7 @@ xpack.security.transport.ssl.truststore.path: data-2
 /usr/share/elasticsearch/bin/elasticsearch-setup-passwords interactive
 ```
    - elastic: elastic_566
-   - apm_system: apt_system_566
+   - apm_system: apm_system_566
    - kibana: kibana_566
    - logstash_system: logstash_system_566
    - beats_system: beats_system_566
