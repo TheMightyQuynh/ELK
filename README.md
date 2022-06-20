@@ -1,5 +1,5 @@
 # Elasticsearch/Kibana Install Guide for AWS
-This guided example is based off A Cloud Guru's <a href="https://learn.acloud.guru/course/1e3ff00e-95bf-451b-be04-44d4bce6bfba/dashboard">Elastic Search Deep Dive</a> course. In the course he is using CentOS 7 servers on the learning platform's Cloud Playground to install Eleasticsearch 7.x, here I am using Ubuntu 22.04 on AWS to install the latest stable version of Elasticsearch 6.
+This guided example is based off A Cloud Guru's <a href="https://learn.acloud.guru/course/1e3ff00e-95bf-451b-be04-44d4bce6bfba/dashboard">Elastic Search Deep Dive</a> course. In the course he is using CentOS 7 servers on the learning platform's Cloud Playground to install Elasticsearch/Kibana 7.x, here I am using Ubuntu 22.04 on AWS to install the latest stable version of Elasticsearch/Kibana 6.
 
 Go through the guide in this order:
 1. [Setting up Elasticsearch 6.8.23 on AWS](https://github.com/TheMightyQuynh/ELK/blob/main/1_INSTALL_Elasticsearch_6.8.23.md)
