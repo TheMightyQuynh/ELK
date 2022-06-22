@@ -2,8 +2,43 @@
 This doesn't work but here are the steps anyway so I don't forget.
 
 1. Created an S3 bucket named `elk-update-3-step-test`
-2. From AWSAdministratorAccess account, added IAM user `elk-3step-test`
-3. Created the below custom policy and attached it to the user
+2. Configured the below bucket policy (idk if this works)
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::524741049628:user/elk-3step-test"
+            },
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation",
+                "s3:ListBucketMultipartUploads",
+                "s3:ListBucketVersions"
+            ],
+            "Resource": "arn:aws:s3:::elk-update-3-step-test"
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::524741049628:user/elk-3step-test"
+            },
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject",
+                "s3:AbortMultipartUpload",
+                "s3:ListMultipartUploadParts"
+            ],
+            "Resource": "arn:aws:s3:::elk-update-3-step-test/*"
+        }
+    ]
+}
+```
+3. From AWSAdministratorAccess account, added IAM user `elk-3step-test`
+4. Created the below custom policy and attached it to the user
 ```
 {
     "Version": "2012-10-17",
