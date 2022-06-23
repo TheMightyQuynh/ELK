@@ -58,17 +58,44 @@ This doesn't work but here are the steps anyway so I don't forget.
 ```
 4. Copied access key ID and secret access key
 5. SSHed into all three nodes and sudo su
-6. Installed S3 plugin on all three nodes and restarted Elasticsearch
+6. Installed S3 plugin on all three nodes
 ```
 cd /usr/share/elasticsearch
 bin/elasticsearch-plugin install --batch repository-s3
-systemctl restart elasticsearch
 ```
-7. Add the below configuration to `/etc/elasticsearch/jvm.options` on master-1 node
+7. Added the below configuration to `/etc/elasticsearch/jvm.options` on all three nodes
 ```
 -Des.allow_insecure_settings=true
 ```
-8. Run the below command on master-1 node
+8. Used Elasticsearch's keystore utility to add the S3 access key ID on **master-1** node
+```
+/usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.access_key
+```
+   - Entered the access key ID from step 4
+9. Used Elasticsearch's keystore utility to add the S3 secret access key on **master-1** node
+```
+/usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.secret_key
+```
+   - Entered the secret key from step 4
+10. Restarted Elasticsearch on all three nodes
+```
+systemctl restart elasticsearch
+```
+11. Ran the below command in Kibana (signed in as `elastic` user)
+Note: I wasn't able to get register the repository using the keystore values, so the `access_key` and `secret_key` values were entered into the command. This is bad practice and has been deprecated.
+```
+PUT _snapshot/s3_test_repo
+{
+ "type": "s3",
+ "settings": {
+   "bucket": "elk-update-3-step-test",
+   "region": "eu-central-1",
+   "access_key": "ACCESS-KEY-ID",
+   "secret_key": "SECRET-ACCESS-KEY"
+ }
+}
+```
+Alternately, the below command may be run from CLI.
 ```
 curl -u elastic:elastic_566 -X PUT "https://localhost:9200/_snapshot/s3_test_repo?pretty" -H 'Content-Type: application/json' -d'
 {
@@ -83,27 +110,12 @@ curl -u elastic:elastic_566 -X PUT "https://localhost:9200/_snapshot/s3_test_rep
 ' --insecure
 ```
 
-And get an error LOL FML
+Success:
 ```
+#! Deprecation: [access_key] setting was deprecated in Elasticsearch and will be removed in a future release! See the breaking changes documentation for the next major version.
+#! Deprecation: [secret_key] setting was deprecated in Elasticsearch and will be removed in a future release! See the breaking changes documentation for the next major version.
+#! Deprecation: Using s3 access/secret key from repository settings. Instead store these in named clients and the elasticsearch keystore for secure settings.
 {
-  "error" : {
-    "root_cause" : [
-      {
-        "type" : "repository_verification_exception",
-        "reason" : "[s3_test_repo] path  is not accessible on master node"
-      }
-    ],
-    "type" : "repository_verification_exception",
-    "reason" : "[s3_test_repo] path  is not accessible on master node",
-    "caused_by" : {
-      "type" : "i_o_exception",
-      "reason" : "Unable to upload object [tests-v1f70bzeQK6eKaRj3RYx4w/master.dat] using a single upload",
-      "caused_by" : {
-        "type" : "amazon_s3_exception",
-        "reason" : "Access Denied (Service: Amazon S3; Status Code: 403; Error Code: AccessDenied; Request ID: Y4SCJM79F5S3DWYX; S3 Extended Request ID: r8LxFxwQsoWYKklUnMgqqOHEvpgYgM6ng8VO2j96XX4fXuFJOSSKeWWRG7AVDi054VkUQ5PPtXw=)"
-      }
-    }
-  },
-  "status" : 500
+  "acknowledged" : true
 }
 ```
