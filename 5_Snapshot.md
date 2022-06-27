@@ -1,8 +1,7 @@
 # Create Snapshot
-This doesn't work but here are the steps anyway so I don't forget.
 
 1. Created an S3 bucket named `elk-update-3-step-test`
-2. Configured the below bucket policy (idk if this works)
+2. Configured the below bucket policy
 ```
 {
     "Version": "2012-10-17",
@@ -38,7 +37,7 @@ This doesn't work but here are the steps anyway so I don't forget.
 }
 ```
 3. From AWSAdministratorAccess account, added IAM user `elk-3step-test`
-4. Created the below custom policy and attached it to the user
+4. Created the below custom policy `ElasticsearchSnapshotRepoTestAccess` and attached it to the user
 ```
 {
     "Version": "2012-10-17",
@@ -56,32 +55,34 @@ This doesn't work but here are the steps anyway so I don't forget.
     ]
 }
 ```
-4. Copied access key ID and secret access key
-5. SSHed into all three nodes and sudo su
-6. Installed S3 plugin on all three nodes
+5. Copied access key ID and secret access key
+6. Created role `elk-3-step-test-role` with policy `ElasticsearchSnapshotRepoTestAccess` created above attached
+7. In EC2, selected instance for master-1 node, then Actions > Security > Modify IAM Role and added the `elk-3-step-test-role` role to the instance
+8. SSHed into all three nodes and sudo su
+9. Installed S3 plugin on all three nodes
 ```
 cd /usr/share/elasticsearch
 bin/elasticsearch-plugin install --batch repository-s3
 ```
-7. Added the below configuration to `/etc/elasticsearch/jvm.options` on all three nodes
+8. Added the below configuration to `/etc/elasticsearch/jvm.options` on all three nodes
 ```
 -Des.allow_insecure_settings=true
 ```
-8. Used Elasticsearch's keystore utility to add the S3 access key ID on **master-1** node
+9. Used Elasticsearch's keystore utility to add the S3 access key ID on **master-1** node
 ```
 /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.access_key
 ```
    - Entered the access key ID from step 4
-9. Used Elasticsearch's keystore utility to add the S3 secret access key on **master-1** node
+10. Used Elasticsearch's keystore utility to add the S3 secret access key on **master-1** node
 ```
 /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.secret_key
 ```
    - Entered the secret key from step 4
-10. Restarted Elasticsearch on all three nodes
+11. Restarted Elasticsearch on all three nodes
 ```
 systemctl restart elasticsearch
 ```
-11. Ran the below command in Kibana (signed in as `elastic` user)
+12. Ran the below command in Kibana (signed in as `elastic` user)
 Note: I wasn't able to get register the repository using the keystore values, so the `access_key` and `secret_key` values were entered into the command. This is bad practice and has been deprecated.
 ```
 PUT _snapshot/s3_test_repo
