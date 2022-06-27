@@ -104,9 +104,6 @@ curl -u elastic:elastic_566 -X PUT "https://localhost:9200/_snapshot/s3_test_rep
 
 Success:
 ```
-#! Deprecation: [access_key] setting was deprecated in Elasticsearch and will be removed in a future release! See the breaking changes documentation for the next major version.
-#! Deprecation: [secret_key] setting was deprecated in Elasticsearch and will be removed in a future release! See the breaking changes documentation for the next major version.
-#! Deprecation: Using s3 access/secret key from repository settings. Instead store these in named clients and the elasticsearch keystore for secure settings.
 {
   "acknowledged" : true
 }
