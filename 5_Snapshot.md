@@ -67,12 +67,12 @@ bin/elasticsearch-plugin install --batch repository-s3
 ```
 /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.access_key
 ```
-   - Entered the access key ID from step 4
+   - Entered the access key ID from step 5
 9. Used Elasticsearch's keystore utility to add the S3 secret access key on all three nodes
 ```
 /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.secret_key
 ```
-   - Entered the secret key from step 4
+   - Entered the secret key from step 5
 10. Restarted Elasticsearch on all three nodes
 ```
 systemctl restart elasticsearch
