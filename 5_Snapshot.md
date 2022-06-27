@@ -64,51 +64,42 @@
 cd /usr/share/elasticsearch
 bin/elasticsearch-plugin install --batch repository-s3
 ```
-8. Added the below configuration to `/etc/elasticsearch/jvm.options` on all three nodes
-```
--Des.allow_insecure_settings=true
-```
-9. Used Elasticsearch's keystore utility to add the S3 access key ID on **master-1** node
+10. Used Elasticsearch's keystore utility to add the S3 access key ID on all three nodes
 ```
 /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.access_key
 ```
    - Entered the access key ID from step 4
-10. Used Elasticsearch's keystore utility to add the S3 secret access key on **master-1** node
+11. Used Elasticsearch's keystore utility to add the S3 secret access key on all three nodes
 ```
 /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.secret_key
 ```
    - Entered the secret key from step 4
-11. Restarted Elasticsearch on all three nodes
+12. Restarted Elasticsearch on all three nodes
 ```
 systemctl restart elasticsearch
 ```
-12. Ran the below command in Kibana (signed in as `elastic` user)
-Note: I wasn't able to get register the repository using the keystore values, so the `access_key` and `secret_key` values were entered into the command. This is bad practice and has been deprecated.
+13. Ran the below command in Kibana (signed in as `elastic` user)
 ```
 PUT _snapshot/s3_test_repo
 {
  "type": "s3",
  "settings": {
    "bucket": "elk-update-3-step-test",
-   "region": "eu-central-1",
-   "access_key": "ACCESS-KEY-ID",
-   "secret_key": "SECRET-ACCESS-KEY"
+   "region": "eu-central-1"
  }
 }
 ```
-Alternately, the below command may be run from CLI.
+Alternately, the below command may be run from CLI (untested).
 ```
 curl -u elastic:elastic_566 -X PUT "https://localhost:9200/_snapshot/s3_test_repo?pretty" -H 'Content-Type: application/json' -d'
 {
  "type": "s3",
  "settings": {
    "bucket": "elk-update-3-step-test",
-   "region": "eu-central-1",
-   "access_key": "ACCESS-KEY-ID",
-   "secret_key": "SECRET-ACCESS-KEY"
+   "region": "eu-central-1"
  }
 }
-' --insecure
+'
 ```
 
 Success:
