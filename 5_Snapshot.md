@@ -1,6 +1,7 @@
-# Create Snapshot
+# S3 Snapshot Repository
 
-1. Created an S3 bucket named `elk-update-3-step-test`
+## Create and Register S3 Repository
+1. Created an S3 bucket named `elk-update-3-step-test` with setting `Block all public access` checked (i.e. do not allow public access)
 2. Configured the below bucket policy
 ```
 {
@@ -36,7 +37,7 @@
     ]
 }
 ```
-3. From AWSAdministratorAccess account, added IAM user `elk-3step-test`
+3. Added IAM user `elk-3step-test` (requires using `AWSAdministratorAccess` AWS account)
 4. Created the below custom policy `ElasticsearchSnapshotRepoTestAccess` and attached it to the user
 ```
 {
@@ -55,30 +56,28 @@
     ]
 }
 ```
-5. Copied access key ID and secret access key
-6. Created role `elk-3-step-test-role` with policy `ElasticsearchSnapshotRepoTestAccess` created above attached
-7. In EC2, selected instance for master-1 node, then Actions > Security > Modify IAM Role and added the `elk-3-step-test-role` role to the instance
-8. SSHed into all three nodes and sudo su
-9. Installed S3 plugin on all three nodes
+5. Copied access key ID and secret access key of the newly created user
+6. SSHed into all three nodes and sudo su
+7. Installed S3 plugin on all three nodes
 ```
 cd /usr/share/elasticsearch
 bin/elasticsearch-plugin install --batch repository-s3
 ```
-10. Used Elasticsearch's keystore utility to add the S3 access key ID on all three nodes
+8. Used Elasticsearch's keystore utility to add the S3 access key ID on all three nodes
 ```
 /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.access_key
 ```
    - Entered the access key ID from step 4
-11. Used Elasticsearch's keystore utility to add the S3 secret access key on all three nodes
+9. Used Elasticsearch's keystore utility to add the S3 secret access key on all three nodes
 ```
 /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.secret_key
 ```
    - Entered the secret key from step 4
-12. Restarted Elasticsearch on all three nodes
+10. Restarted Elasticsearch on all three nodes
 ```
 systemctl restart elasticsearch
 ```
-13. Ran the below command in Kibana (signed in as `elastic` user)
+11. Ran the below command in Kibana (signed in as `elastic` user)
 ```
 PUT _snapshot/s3_test_repo
 {
@@ -106,5 +105,16 @@ Success:
 ```
 {
   "acknowledged" : true
+}
+```
+
+## Taking a Snapshot
+Run the below command in Kibana (signed in as `elastic` user)
+```
+PUT _snapshot/s3_test_repo/UNIQUE_NAME_OF_SNAPSHOT
+{
+  "indices": "INDEX1, INDEX2",
+  "ignore_unavailable": true,
+  "include_global_state": false
 }
 ```
