@@ -6,3 +6,4 @@ Go through the guide in this order:
 2. [Setting up Kibana 6.8.23 on AWS](https://github.com/TheMightyQuynh/ELK/blob/main/2_INSTALL_Kibana_6.8.23.md)
 3. [Secure the Cluster](https://github.com/TheMightyQuynh/ELK/blob/main/3_Secure_the_Cluster.md)
 4. [Define Indices](https://github.com/TheMightyQuynh/ELK/blob/main/4_Indexing.md)
+5. [Create a Snapshot Repo on AWS S3](https://github.com/TheMightyQuynh/ELK/blob/main/5_Snapshot.md)
