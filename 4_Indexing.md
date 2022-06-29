@@ -81,6 +81,6 @@ curl -O https://raw.githubusercontent.com/linuxacademy/content-elasticsearch-dee
 Bulk index the files into the appropriate indices.
 ```
 curl -u elastic -k -H 'Content-type: application/x-ndjson' -X POST https://localhost:9200/bank/_bulk --data-binary @accounts.json
-curl -u elastic -k -H 'Content-type: application/x-ndjson' -X POST https://localhost:9200/bank/_bulk --data-binary @shakespeare.json
-curl -u elastic -k -H 'Content-type: application/x-ndjson' -X POST https://localhost:9200/bank/_bulk --data-binary @logs.json
+curl -u elastic -k -H 'Content-type: application/x-ndjson' -X POST https://localhost:9200/shakespeare/_bulk --data-binary @shakespeare.json
+curl -u elastic -k -H 'Content-type: application/x-ndjson' -X POST https://localhost:9200/logs/_bulk --data-binary @logs.json
 ```
