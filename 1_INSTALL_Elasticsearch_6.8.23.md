@@ -102,6 +102,7 @@ node.ml: false
 ```
 cluster.name: playground
 node.name: data-2
+node.attr.temp: warm
 network.host: [_local_, _site_]
 discovery.zen.ping.unicast.hosts: ["`private IP master-1`"]
 discovery.zen.minimum_master_nodes: 1
