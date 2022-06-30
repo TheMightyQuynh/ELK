@@ -1,7 +1,7 @@
 # Setting up Elasticsearch 7.17.5 on AWS
 
 ## Prerequisites
-1. 3 EC2 instances
+1. 3 EC2 instances (new instances, not the ones already running Elasticsearch 6)
    - Application and OS Images: Ubuntu Server 22.04 LTS (HVM), SSD Volume Type (Free tier eligible)
    - Instance type: At least t2.small (1vCPU, 2GiB memory)
    - Key pair (login) - only needs to be done once, not for each instance:
