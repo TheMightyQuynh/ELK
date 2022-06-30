@@ -1,5 +1,4 @@
 # Setting up Elasticsearch 7.17.5 on AWS
-These steps are the same as for installing Elasticsearch 6, except that the package version being added to APT is **7.x**.
 
 ## Prerequisites
 1. 3 EC2 instances (new instances, not the ones already running Elasticsearch 6)
