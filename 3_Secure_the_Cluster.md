@@ -184,16 +184,19 @@ xpack.security.transport.ssl.truststore.path: data-2
 ```
    - elastic: elastic_566
    - apm_system: apm_system_566
-   - kibana_system: kibana_566
+   - kibana: kibana_566
    - logstash_system: logstash_system_566
    - beats_system: beats_system_566
    - remote_monitoring_user: remote_monitoring_user_566
+
+Note: Username `kibana` is `kibana_system` in version 7.x!
 
 2. Open `/etc/kibana/kibana.yml` in an editor and configure Kibana to use the Kibana username and password set above
 ```
 elasticsearch.username: "kibana"
 elasticsearch.password: "kibana_566"
 ```
+Note: Username is `kibana_system` in version 7.x!
 
 3. Start Kibana
 ```
