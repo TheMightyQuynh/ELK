@@ -184,7 +184,7 @@ xpack.security.transport.ssl.truststore.path: data-2
 ```
    - elastic: elastic_566
    - apm_system: apm_system_566
-   - kibana: kibana_566
+   - kibana_system: kibana_566
    - logstash_system: logstash_system_566
    - beats_system: beats_system_566
    - remote_monitoring_user: remote_monitoring_user_566
