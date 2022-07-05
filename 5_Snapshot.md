@@ -58,7 +58,7 @@
 ```
 5. Copied access key ID and secret access key of the newly created user
 
-## Install S3 Plugin and Register Repository
+## Install S3 Plugin
 1. SSHed into all three nodes and sudo su
 2. Installed S3 plugin on all three nodes
 ```
@@ -79,7 +79,9 @@ bin/elasticsearch-plugin install --batch repository-s3
 ```
 systemctl restart elasticsearch
 ```
-6. Ran the below command in Kibana (signed in as `elastic` user)
+
+## Register the Repository
+Ran the below command in Kibana (signed in as `elastic` user)
 ```
 PUT _snapshot/s3_test_repo
 {
