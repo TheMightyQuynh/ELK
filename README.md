@@ -10,4 +10,4 @@ Go through the guide in this order:
 6. [Setting up Elasticsearch 7.17.5 on AWS](https://github.com/TheMightyQuynh/ELK/blob/main/6_INSTALL_Elasticsearch_7.17.5.md)
 7. [Setting up Kibana 7.17.5 on AWS](https://github.com/TheMightyQuynh/ELK/blob/main/7_INSTALL_Kibana_7.17.5.md)
 8. [Secure the Cluster](https://github.com/TheMightyQuynh/ELK/blob/main/3_Secure_the_Cluster.md) for the cluster running 7.17.5 (same document from step 3)
-9. [Install S3 Plugin](https://github.com/TheMightyQuynh/ELK/blob/main/5_Snapshot.md#install-s3-plugin-and-register-repository) for the cluster running 7.17.5
+9. [Install S3 Plugin](https://github.com/TheMightyQuynh/ELK/blob/main/5_Snapshot.md#register-the-repository) and [Register the Repository](https://github.com/TheMightyQuynh/ELK/blob/main/5_Snapshot.md#register-the-repository) for the cluster running 7.17.5
