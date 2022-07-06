@@ -160,3 +160,12 @@ Success:
   }
 }
 ```
+
+## Restore from Snapshot
+```
+POST /_snapshot/s3_test_repo/snapshot_1/_restore?wait_for_completion=true
+{
+  "indices": "random_test_data"
+}
+```
+See [Restore snapshot API documentation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/restore-snapshot-api.html) for full list of possible parameters and usage.
