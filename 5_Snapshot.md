@@ -92,7 +92,7 @@ PUT _snapshot/s3_test_repo
  }
 }
 ```
-Alternately, the below command may be run from CLI (untested).
+Alternately, the below command may be run from CLI.
 ```
 curl -u elastic:elastic_566 -X PUT "https://localhost:9200/_snapshot/s3_test_repo?pretty" -H 'Content-Type: application/json' -d'
 {
@@ -102,7 +102,7 @@ curl -u elastic:elastic_566 -X PUT "https://localhost:9200/_snapshot/s3_test_rep
    "region": "eu-central-1"
  }
 }
-'
+' --insecure
 ```
 
 Success:
@@ -120,5 +120,43 @@ PUT _snapshot/s3_test_repo/UNIQUE_NAME_OF_SNAPSHOT
   "indices": "INDEX1, INDEX2",
   "ignore_unavailable": true,
   "include_global_state": false
+}
+```
+Alternately, the below command may be run from CLI.
+```
+curl -u elastic:elastic_566 -X PUT "https://localhost:9200/_snapshot/s3_test_repo/snapshot_1?wait_for_completion=true&pretty" --insecure
+```
+Success:
+```
+{
+  "snapshot" : {
+    "snapshot" : "snapshot_1",
+    "uuid" : "GtQ7PQZGS-yvAdh_Ad6hbg",
+    "version_id" : 6082399,
+    "version" : "6.8.23",
+    "indices" : [
+      "random_data_test",
+      ".kibana_task_manager",
+      ".kibana_1",
+      ".security-6",
+      "random_data_test2",
+      "logs",
+      "shakespeare",
+      "bank"
+    ],
+    "include_global_state" : true,
+    "state" : "SUCCESS",
+    "start_time" : "2022-07-06T07:22:16.109Z",
+    "start_time_in_millis" : 1657092136109,
+    "end_time" : "2022-07-06T07:22:20.156Z",
+    "end_time_in_millis" : 1657092140156,
+    "duration_in_millis" : 4047,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 8,
+      "failed" : 0,
+      "successful" : 8
+    }
+  }
 }
 ```
