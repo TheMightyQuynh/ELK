@@ -162,6 +162,17 @@ Success:
 ```
 
 ## Restore from Snapshot
+See all snapshot repositories:
+```
+GET _snapshot/_all
+```
+
+See all snapshots in a repository:
+```
+GET _snapshot/s3_test_repo/_all
+```
+
+Restore a snapshot:
 ```
 POST /_snapshot/s3_test_repo/snapshot_1/_restore?wait_for_completion=true
 {
