@@ -174,11 +174,13 @@ GET _snapshot/s3_test_repo/_all
 
 Restore a snapshot:
 ```
-POST /_snapshot/s3_test_repo/snapshot_1/_restore?wait_for_completion=true
+POST /_snapshot/s3_test_repo/name_of_snapshot/_restore?wait_for_completion=true
 {
-  "indices": "random_test_data"
+  "indices": "*"
 }
 ```
+![image](https://user-images.githubusercontent.com/104564793/182156180-a08bc67c-4b14-4bed-ab44-8b0397c857d8.png)
+
 See [Restore snapshot API documentation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/restore-snapshot-api.html) for full list of possible parameters and usage.
 
 ## Delete Snapshot Repository
