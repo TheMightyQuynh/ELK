@@ -186,3 +186,5 @@ The DELETE command unregisters the repository by removing the reference to the l
 ```
 DELETE /_snapshot/s3_test_repo
 ```
+
+If new snapshots are added to a repository after the repository has already been registered on the target cluster (the cluster running 7.17 in this case), the repository must be unregistered and re-registered for the latest updates to appear.
