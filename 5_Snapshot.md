@@ -180,3 +180,9 @@ POST /_snapshot/s3_test_repo/snapshot_1/_restore?wait_for_completion=true
 }
 ```
 See [Restore snapshot API documentation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/restore-snapshot-api.html) for full list of possible parameters and usage.
+
+## Delete Snapshot Repository
+The DELETE command unregisters the repository by removing the reference to the location of the snapshot. The snapshots themselves are not touched.
+```
+DELETE /_snapshot/s3_test_repo
+```
