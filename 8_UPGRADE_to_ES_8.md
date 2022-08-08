@@ -86,7 +86,7 @@ Start the node.
 systemctl start elasticsearch
 ```
 
-If upgrading a data node, re-enable shard allocation.
+If upgrading a data node, re-enable shard allocation in the Kibana console.
 ```
 PUT _cluster/settings
 {
