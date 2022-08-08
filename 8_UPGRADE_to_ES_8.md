@@ -59,10 +59,14 @@ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearm
 Install Elasticsearch 8.x from the latest repository.
 ```
 echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+```
+```
 sudo apt-get update && sudo apt-get install elasticsearch
 ```
 
-Edit `/etc/elasticsearch/elasticsearch.yml` with the correct settings for the node.
+Enter `Y` or `I` to select the option to install the updated versions of `elasticsearch.yml` and `jvm.options`.
+
+Edit `/etc/elasticsearch/elasticsearch.yml` and `jvm.options` (optional) with the correct settings for the node.
 
 Upgrade any plugins using the `elasticsearch-plugin` script.
 
@@ -73,6 +77,8 @@ To list all plugins:
 In this case, only the `repository-s3` plugin was installed, so remove and install to upgrade it.
 ```
 /usr/share/elasticsearch/bin/elasticsearch-plugin remove repository-s3
+```
+```
 /usr/share/elasticsearch/bin/elasticsearch-plugin install repository-s3
 ```
 
@@ -86,7 +92,7 @@ Start the node.
 systemctl start elasticsearch
 ```
 
-If upgrading a data node, re-enable shard allocation in the Kibana console.
+If upgrading a data node, re-enable shard allocation via the Kibana console.
 ```
 PUT _cluster/settings
 {
