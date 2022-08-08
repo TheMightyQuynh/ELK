@@ -43,7 +43,7 @@ POST _ml/set_upgrade_mode?enabled=true
 
 Starting with non-master eligible nodes and going from frozen, cold, warm, and finally hot data tiers, upgrade the nodes one by one as follows:
 
-Make note of the settings in `/etc/elasticsearch/elasticsearch.yml` and `/etc/elasticsearch/jvm.options` (optionally) as they will be erased after installing the new version.
+Copy or make note of the settings in `/etc/elasticsearch/elasticsearch.yml` and `/etc/elasticsearch/jvm.options` (optionally) as they will be erased after installing the new version.
 
 Shut down a single node (log in as sudo or use with sudo command).
 ```
@@ -59,7 +59,8 @@ sudo apt-get update && sudo apt-get install elasticsearch
 Edit `/etc/elasticsearch/elasticsearch.yml` with the correct settings for the node.
 
 Upgrade any plugins using the `elasticsearch-plugin` script.
-List all plugins:
+
+To list all plugins:
 ```
 /usr/share/elasticsearch/bin/elasticsearch-plugin list
 ```
@@ -90,6 +91,7 @@ GET _cat/health?v=true
 ```
 
 Repeat these steps for each node to be upgraded.
+
 To check which nodes have been upgraded:
 ```
 GET /_cat/nodes?h=ip,name,version&v=true
