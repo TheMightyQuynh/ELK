@@ -14,3 +14,56 @@ Indices created prior to version 7 must be reindexed - accept Upgrade Assistant'
 ![2_Reindex dialog](https://user-images.githubusercontent.com/104564793/182584696-e3b3c62b-a436-47fa-a09b-cfd721a24727.png)
 ![3_Reindex dialog2](https://user-images.githubusercontent.com/104564793/182585075-d48b47f5-309e-4cb8-b854-ccb195b57eb0.png)
 ![4_Reindex of one index complete](https://user-images.githubusercontent.com/104564793/182586038-701be68f-095c-40ae-acc4-7eafbce4d6fa.png)
+
+Disable shard allocation via the Kibana console (Dev Tools).
+```
+PUT _cluster/settings
+{
+  "persistent": {
+    "cluster.routing.allocation.enable": "primaries"
+  }
+}
+```
+Success:
+
+![image](https://user-images.githubusercontent.com/104564793/183371381-203a3b7f-3ec7-4b30-86de-4e74c6e6bb6b.png)
+
+(Optional) Temporarily stop non-essential indexing and perform a flush. Indexing can be continued during upgrading, but stopping it and performing a flush allows shard recovery to go faster.
+```
+POST /_flush
+```
+
+(Optional) Temporarily stop tasks associated with machine learning jobs and data feeds. Jobs can be continued during upgrading, but it puts increased load on the cluster.
+```
+POST _ml/set_upgrade_mode?enabled=true
+```
+
+Starting with non-master eligible nodes and going from frozen, cold, warm, and finally hot data tiers, upgrade the nodes one by one as follows:
+
+Shut down a single node (log in as sudo or use with sudo command).
+```
+systemctl stop elasticsearch
+```
+
+Install Elasticsearch 8.x from the latest repository.
+```
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+sudo apt-get update && sudo apt-get install elasticsearch
+```
+
+Upgrade any plugins using the `elasticsearch-plugin` script.
+List all plugins:
+```
+/usr/share/elasticsearch/bin/elasticsearch-plugin list
+```
+In this case, only the `repository-s3` plugin was installed, so remove and install to upgrade it.
+```
+/usr/share/elasticsearch/bin/elasticsearch-plugin remove repository-s3
+/usr/share/elasticsearch/bin/elasticsearch-plugin install repository-s3
+```
+
+Start the node.
+```
+systemctl start elasticsearch
+```
+:(
