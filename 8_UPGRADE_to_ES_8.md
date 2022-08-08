@@ -76,6 +76,11 @@ In this case, only the `repository-s3` plugin was installed, so remove and insta
 /usr/share/elasticsearch/bin/elasticsearch-plugin install repository-s3
 ```
 
+Reload the source configuration file for elasticsearch.service.
+```
+systemctl daemon-reload
+```
+
 Start the node.
 ```
 systemctl start elasticsearch
