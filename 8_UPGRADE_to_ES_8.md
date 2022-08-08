@@ -50,6 +50,12 @@ Shut down a single node (log in as sudo or use with sudo command).
 systemctl stop elasticsearch
 ```
 
+Import the Elasticsearch PGP key.
+```
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+
+```
+
 Install Elasticsearch 8.x from the latest repository.
 ```
 echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
