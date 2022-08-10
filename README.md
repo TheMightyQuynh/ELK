@@ -12,3 +12,4 @@ Go through the guide in this order:
 8. [Secure the Cluster](https://github.com/TheMightyQuynh/ELK/blob/main/3_Secure_the_Cluster.md) for the cluster running 7.17.5 (same document from step 3)
 9. [Install S3 Plugin](https://github.com/TheMightyQuynh/ELK/blob/main/5_Snapshot.md#register-the-repository) and [Register the Repository](https://github.com/TheMightyQuynh/ELK/blob/main/5_Snapshot.md#register-the-repository) for the cluster running 7.17.5
 10. [Restore from Snapshot](https://github.com/TheMightyQuynh/ELK/blob/main/5_Snapshot.md#restore-from-snapshot)
+11. [Upgrade 7.x to 8.x](https://github.com/TheMightyQuynh/ELK/blob/main/8_UPGRADE_to_ES_8.md)
