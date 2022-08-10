@@ -1,4 +1,4 @@
-# Upgrade Elasticsearch 7.17 to 8.x
+# Upgrade Elasticsearch/Kibana 7.17 to 8.x
 
 Make sure there is a current snapshot taken before beginning the upgrade.
 
@@ -45,7 +45,7 @@ Starting with non-master eligible nodes and going from frozen, cold, warm, and f
 
 Copy or make note of the settings in `/etc/elasticsearch/elasticsearch.yml` and `/etc/elasticsearch/jvm.options` (optionally) as they will be erased after installing the new version.
 
-Shut down a single node (log in as sudo or use with sudo command).
+Shut down a single node (switch to root account or use with sudo command).
 ```
 systemctl stop elasticsearch
 ```
@@ -117,4 +117,55 @@ GET /_cat/nodes?h=ip,name,version&v=true
 (Optional) Restart machine learning jobs.
 ```
 POST _ml/set_upgrade_mode?enabled=false
+```
+
+## Upgrade Kibana
+Once Elasticsearch has been upgraded, Kibana may be upgraded next. Check Upgrade Assistant to ensure this is the case.
+![image](https://user-images.githubusercontent.com/104564793/183850359-aaea9a79-7591-4e53-a6d0-493d45dc0f4e.png)
+
+On the **master-1** node (the node hosting Kibana), shut down Kibana (switch to root account or use with sudo command).
+```
+systemctl stop kibana
+```
+
+The latest repository definition should already be saved from the Elasticsearch upgrade earlier but here is the command again just in case.
+```
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+```
+
+Install Kibana 8.x from the latest repository.
+```
+sudo apt-get update && sudo apt-get install kibana
+```
+
+Enter `Y` or `I` to select the option to install the updated versions of `kibana.yml`.
+
+Edit `/etc/kibana/kibana.yml` with the correct settings.
+```
+server.port: 8080
+server.host: "`private IP master-1`"
+elasticsearch.hosts: ["https://localhost:9200"]
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "kibana_566"
+elasticsearch.ssl.verificationMode: none
+```
+
+Edit `/etc/systemd/system/kibana.service` and remove `--logging.dest="/var/log/kibana/kibana.log"` from the line beginning with `ExecStart`
+Before:
+```
+ExecStart=/usr/share/kibana/bin/kibana --logging.dest="/var/log/kibana/kibana.log" --pid.file="/run/kibana/kibana.pid" --deprecation.skip_deprecated_settings[0]="logging.dest"
+```
+After:
+```
+ExecStart=/usr/share/kibana/bin/kibana --pid.file="/run/kibana/kibana.pid" --deprecation.skip_deprecated_settings[0]="logging.dest"
+```
+
+Reload the source configuration file for kibana.service.
+```
+systemctl daemon-reload
+```
+
+Start Kibana.
+```
+systemctl start kibana
 ```
