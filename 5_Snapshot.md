@@ -113,7 +113,12 @@ Success:
 ```
 
 ## Taking a Snapshot
-Run the below command in Kibana (signed in as `elastic` user)
+Run the below command in Kibana (signed in as `elastic` user).
+```
+PUT _snapshot/s3_test_repo/UNIQUE_NAME_OF_SNAPSHOT
+```
+
+Additional options for creating a snapshot can be found <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-take-snapshot.html">here</a>. For example, if you only want to take a snapshot of specific indices and not the entire state of the cluster, the below command can be used:
 ```
 PUT _snapshot/s3_test_repo/UNIQUE_NAME_OF_SNAPSHOT
 {
