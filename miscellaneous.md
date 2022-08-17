@@ -1,5 +1,4 @@
-## Restore 6.x Snapshot to 8.x
-🔴 Results of testing restoration of snapshot from 6 into cluster running 8.
+🔴 Results of testing restoration of snapshot from ES6 into cluster running ES8.
 Command:
 ```
 POST /_snapshot/s3_test_repo/index_data_snapshot/_restore?wait_for_completion=true
@@ -25,3 +24,5 @@ Result:
   "status": 403
 }
 ```
+
+🔴 Snapshot taken from ES7 was upgraded to 8 when cluster was upgraded to ES8.
