@@ -16,16 +16,18 @@ echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee 
 ```
 sudo apt-get update && sudo apt-get install logstash
 ```
-4. (Optional?) Update the initial and max heap size to 768m (default is 1GiB, e.g. -Xms1g -Xmx1g) in the `/etc/logastash/jvm.options` file
+Note: Got the below error when attemping to install Logstash:
 ```
--Xms768m
--Xmx768m
+E: Conflicting values set for option Signed-By regarding source https://artifacts.elastic.co/packages/6.x/apt/ stable: /usr/share/keyrings/elasticsearch-keyring.gpg !=
+E: The list of sources could not be read.
 ```
-5. Create a symlink to enable Logstash to automatically start on system boot
+Solved this by removing the extra `deb https://artifacts.elastic.co/packages/6.x/apt stable main` line(s) from file `/etc/apt/sources.list.d/elastic-6.x.list` and running the update and install again.
+
+4. Create a symlink to enable Logstash to automatically start on system boot
 ```
 sudo systemctl enable logstash
 ```
-6. Start Logstash
+5. Start Logstash
 ```
 sudo systemctl start logstash
 ```
@@ -58,3 +60,23 @@ Run the most basic Logstash pipeline to test
 cd /usr/share/logstash
 bin/logstash -e 'input { stdin { } } output { stdout {} }'
 ```
+The pipeline is running once the following messages are output (may take a bit of time):
+```
+[INFO ] 2022-09-19 12:12:17.008 [Converge PipelineAction::Create<main>] pipeline - Pipeline started successfully {:pipeline_id=>"main", :thread=>"#<Thread:0xe4a88ac run>"}
+The stdin plugin is now waiting for input:
+[INFO ] 2022-09-19 12:12:17.143 [Ruby-0-Thread-1: /usr/share/logstash/lib/bootstrap/environment.rb:6] agent - Pipelines running {:count=>1, :running_pipelines=>[:main], :non_running_pipelines=>[]}
+[INFO ] 2022-09-19 12:12:17.675 [Api Webserver] agent - Successfully started Logstash API endpoint {:port=>9600}
+```
+At this point you can enter any message to test and the reply should look something like this:
+```
+/usr/share/logstash/vendor/bundle/jruby/2.5.0/gems/awesome_print-1.7.0/lib/awesome_print/formatters/base_formatter.rb:31: warning: constant ::Fixnum is deprecated
+{
+      "@version" => "1",
+          "host" => "ip-10-255-255-252",
+    "@timestamp" => 2022-09-19T12:12:53.025Z,
+       "message" => "Testing 123"
+}
+```
+`ctrl + c` to exit
+
+To kill a Logstash instance, use the `ps -ef|grep logstash` command to find the process ID and then command `kill -9 <PID>` to terminate the instance
