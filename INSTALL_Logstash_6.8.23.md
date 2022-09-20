@@ -77,6 +77,20 @@ At this point you can enter any message to test and the reply should look someth
        "message" => "Testing 123"
 }
 ```
+In case of below warning:
+```
+WARNING: Could not find logstash.yml which is typically located in $LS_HOME/config or /etc/logstash. You can specify the path using --path.settings. Continuing using the defaults
+```
+The `--path.settings` can be specified
+```
+bin/logstash --path.settings /etc/logstash -e 'input { stdin { } } output { stdout {} }'
+```
+
+To test a Logstash configuration file
+```
+bin/logstash --path.settings /etc/logstash -f /etc/logstash/<logstash-filename.conf> --config.test_and_exit
+```
+
 `ctrl + c` to exit
 
 To kill a Logstash instance, use the `ps -ef|grep logstash` command to find the process ID and then command `kill -9 <PID>` to terminate the instance
