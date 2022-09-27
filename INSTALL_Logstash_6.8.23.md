@@ -55,7 +55,7 @@ sudo firewall-cmd --list-ports
 ```
 
 ## Test Logstash installation
-Run the most basic Logstash pipeline to test
+Run the most basic Logstash pipeline to test (sudo/run as root)
 ```
 cd /usr/share/logstash
 bin/logstash -e 'input { stdin { } } output { stdout {} }'
