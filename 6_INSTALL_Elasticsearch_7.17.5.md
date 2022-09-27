@@ -110,6 +110,8 @@ node.ml: false
 ```
 sudo nano /etc/elasticsearch/jvm.options
 ```
+*Note: For v7.17.6, create a new file with extension `.options` under `/etc/elasticsearch/jvm.options.d/` directory containing the below line-delimited configuration.
+
 6. Update the initial and max heap size to 768m (default is 1GiB, e.g. `-Xms1g` `-Xmx1g`) if you chose instance type t2.small (2GiB memory) for master-1, else see the section on RAM in the first answer of <a href="https://stackoverflow.com/a/58656748">this Stackoverflow thread</a>
 ```
 -Xms768m
