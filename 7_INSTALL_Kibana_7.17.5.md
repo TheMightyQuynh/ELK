@@ -35,6 +35,8 @@ systemctl start kibana
 ```
 less /var/log/syslog
 ```
+*Note: For Kibana 7.17.6, logs are in `/var/log/kibana/kibana.log`
+
 Successful log output:
 >Jun 14 07:54:42 ip-10-255-255-254 kibana[1018]: {"type":"log","@timestamp":"2022-06-14T07:54:42Z","tags":["listening","info"],"pid":1018,"message":"Server running at http://10.255.255.254:8080"}
 >
