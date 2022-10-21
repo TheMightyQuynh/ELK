@@ -96,9 +96,36 @@ bin/logstash --path.settings /etc/logstash -f /etc/logstash/<logstash-filename.c
 To kill a Logstash instance, use the `ps -ef|grep logstash` command to find the process ID and then command `kill -9 <PID>` to terminate the instance
 
 ## Configure Logstash
-Uncomment and fill in the following:
+Uncomment and fill in the following in `/etc/logstash/logstash.yml`:
 ```
 node.name: master-1
 path.config: /etc/logstash/conf.d
 path.logs: /var/log/logstash
+```
+
+## Configure pipeline
+Create configuration file with suffix `.conf` in directory `/etc/logstash/conf.d`
+This example is named `timestamp.conf`
+```
+input {
+    beats {
+        port => 5044
+    }
+}
+
+filter {
+    date {
+        match => [ "timestamp" , "dd/MMM/yyy:HH:mm:ss Z" ]
+    }
+}
+
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "timestamp-%{+YYYY.MM.dd}"
+    }
+    stdout {
+        codec => rubydebug
+    }
+}
 ```
