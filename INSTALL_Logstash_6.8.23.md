@@ -94,3 +94,11 @@ bin/logstash --path.settings /etc/logstash -f /etc/logstash/<logstash-filename.c
 `ctrl + c` to exit
 
 To kill a Logstash instance, use the `ps -ef|grep logstash` command to find the process ID and then command `kill -9 <PID>` to terminate the instance
+
+## Configure Logstash
+Uncomment and fill in the following:
+```
+node.name: master-1
+path.config: /etc/logstash/conf.d
+path.logs: /var/log/logstash
+```
