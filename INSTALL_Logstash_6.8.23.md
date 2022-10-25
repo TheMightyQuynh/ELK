@@ -129,3 +129,35 @@ output {
     }
 }
 ```
+
+## Handy stuff
+Log location: `/var/log/logstash`
+### Commands
+Get pipeline info:
+```
+curl -XGET 'localhost:9600/_node/pipelines?pretty'
+```
+Get JVM stats:
+```
+curl -XGET 'localhost:9600/_node/stats/jvm?pretty'
+```
+Get process stats:
+```
+curl -XGET 'localhost:9600/_node/stats/process?pretty'
+```
+Get event stats:
+```
+curl -XGET 'localhost:9600/_node/stats/events?pretty'
+```
+Get pipeline stats:
+```
+curl -XGET 'localhost:9600/_node/stats/pipelines?pretty'
+```
+Get config reload stats:
+```
+curl -XGET 'localhost:9600/_node/stats/reloads?pretty'
+```
+Get plugin info:
+```
+curl -XGET 'localhost:9600/_node/plugins?pretty'
+```
