@@ -28,3 +28,18 @@ seccomp:
     names:
     - rseq
 ```
+
+## Handy stuff
+Log location: `/var/log/filebeat`
+
+Data path (configurable): `/home/ubuntu/data`
+
+Command to test configuration:
+```
+filebeat test config /etc/filebeat/filebeat.yml
+```
+
+Command to test output:
+```
+filebeat test output
+```
